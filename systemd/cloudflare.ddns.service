@@ -1,0 +1,10 @@
+[Unit]
+Description=CloudFlare DDNS Refresher Script
+After=netword-online.target
+Wants=network-online.target
+
+[Service]
+FINISH!
+
+[Install]
+WantedBy=multi-user.target
