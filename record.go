@@ -44,15 +44,15 @@ var backgroundContext = context.Background()
 // Record identifies a DNS Record for Cloudflare API.
 // For more informations: https://api.cloudflare.com/#dns-records-for-a-zone-create-dns-record
 type Record struct {
-	ID      string     `json:"id"`
-	Type    RecordType `json:"type"`
-	Name    *url.URL   `json:"name"`
-	Content string     `json:"content"`
+	ID      string     `json:"id",toml:"id"`
+	Type    RecordType `json:"type",toml:"type"`
+	Name    *url.URL   `json:"name",toml:"name"`
+	Content string     `json:"content",toml:"content"`
 
 	// Optional parameters
 
-	TTL     uint `json:"ttl,omitempty"`
-	Proxied bool `json:"proxied,omitempty"`
+	TTL     uint `json:"ttl,omitempty",toml:"ttl,omitempty"`
+	Proxied bool `json:"proxied,omitempty",toml:"proxied,omitempty"`
 }
 
 // Validate checks for errors in the DNS Record object, and returns them

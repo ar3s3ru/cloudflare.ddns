@@ -34,7 +34,7 @@ func (conf APIConfig) Request(ctx context.Context, body Record) (*http.Request, 
 		return nil, err
 	}
 	method := http.MethodPost
-	if body.ID != "" {
+	if body.ID != "" { // Using an already-existing record
 		method = http.MethodPut
 	}
 	bytz, err := json.Marshal(body)

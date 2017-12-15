@@ -1,10 +1,10 @@
 [Unit]
 Description=CloudFlare DDNS Refresher Script
+Requires=network-online.target
 After=netword-online.target
-Wants=network-online.target
 
 [Service]
-FINISH!
+ExecStart=/usr/share/bin/ddnsd
 
 [Install]
 WantedBy=multi-user.target

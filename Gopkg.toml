@@ -24,3 +24,7 @@
 [[constraint]]
   branch = "master"
   name = "golang.org/x/sync"
+
+[[constraint]]
+  name = "github.com/BurntSushi/toml"
+  version = "0.3.0"

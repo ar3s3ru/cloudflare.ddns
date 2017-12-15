@@ -2,14 +2,16 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
 	"log"
 	"os"
 	"time"
 
+	"github.com/BurntSushi/toml"
 	"github.com/ar3s3ru/cloudflare.ddns"
 )
+
+const DefaultConfigPath = "./config.toml"
 
 var stash *log.Logger
 
@@ -21,9 +23,13 @@ var (
 	apiKey     = flag.String("k", "", "CloudFlare API Key to use")
 	emailKey   = flag.String("e", "", "CloudFlare Email Auth to use")
 	zoneID     = flag.String("z", "", "CloudFlare DNS Zone ID")
-	recordFile = flag.String("r", "", "specify the path of the record file to update")
+	recordFile = flag.String("r", DefaultConfigPath, "specify the path of the record file to update")
 	ticker     = flag.Duration("t", 120*time.Second, "Refresh duration")
 )
+
+type Config struct {
+	ddns.Record
+}
 
 func main() {
 	flag.Parse()
@@ -36,20 +42,21 @@ func main() {
 	if err != nil {
 		stash.Fatalf("opening record file failed: %s\n", err)
 	}
+	defer stash.Fatalln(file.Close())
 
-	var record ddns.Record
-	if err := json.NewDecoder(file).Decode(&record); err != nil {
+	var config Config
+	if _, err := toml.DecodeReader(file, &config); err != nil {
 		stash.Fatalf("decoding record file failed: %s\n", err)
 	}
-	if err := record.Validate(); err != nil {
+	if err := config.Validate(); err != nil {
 		stash.Fatalf("validating record file failed: %s\n", err)
 	}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	config := ddns.APIConfig{APIKey: *apiKey, Email: *emailKey, ZoneID: *zoneID}
-	ch, err := ddns.NewRequest(ctx, config, record, ddns.Timeout(*ticker))
+	api := ddns.APIConfig{APIKey: *apiKey, Email: *emailKey, ZoneID: *zoneID}
+	ch, err := ddns.NewRequest(ctx, api, config.Record, ddns.Timeout(*ticker))
 	if err != nil {
 		stash.Fatalf("creating new request failed: %s\n", err)
 	}

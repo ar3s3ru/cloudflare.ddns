@@ -98,7 +98,9 @@ func (r *requestCtx) handle(ctx context.Context, cli *http.Client) <-chan Result
 // NewRequest takes API configuration, DNS record to keep update, and optional parameters
 // and returns a channel that will emit Results every time a refresh request will be done.
 // A context.Context can be used to cancel the execution of the refresh.
-func NewRequest(ctx context.Context, config APIConfig, record Record, opts ...Option) (<-chan Result, error) {
+func NewRequest(ctx context.Context, config APIConfig, record Record,
+	opts ...Option) (<-chan Result, error) {
+
 	if err := record.Validate(); err != nil {
 		return nil, err
 	}

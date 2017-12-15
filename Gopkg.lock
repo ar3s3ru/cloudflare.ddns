@@ -2,6 +2,12 @@
 
 
 [[projects]]
+  name = "github.com/BurntSushi/toml"
+  packages = ["."]
+  revision = "b26d9c308763d68093482582cea63d69be07a0f0"
+  version = "v0.3.0"
+
+[[projects]]
   branch = "master"
   name = "golang.org/x/net"
   packages = ["context"]
@@ -16,6 +22,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "de7d597c9e28c160fdddec236a1b99b0ed8de56777d7b47c69e50b66abeffefe"
+  inputs-digest = "81f8b305fe58e430a8b4af5c22f7133ea8f1f742bd8489895abe018ff2877b71"
   solver-name = "gps-cdcl"
   solver-version = 1

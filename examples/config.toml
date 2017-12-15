@@ -1,0 +1,6 @@
+[Record]
+id = "SOME_ID"
+type = "A"
+name = "srv.danilocianfrone.com"
+content = "2.33.38.89"
+proxied = false
